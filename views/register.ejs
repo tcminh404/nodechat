@@ -1,0 +1,19 @@
+<head>
+  <link href="/vendor/tailwind.css" rel="stylesheet" />
+  <link rel="icon" href="/favicon.ico">
+  <title>Admin</title>
+</head>
+
+<body>
+  <div class="flex flex-col justify-center items-center w-screen h-screen">
+    <img class="w-20 justify-self-center my-10"
+      src="https://yu.ctu.edu.vn/images/upload/article/2020/03/0305-logo-ctu.png" alt="" srcset="" />
+    <form class="flex flex-col" action="/api/register" method="POST">
+      <input class="py-3 px-5 border-2" type="text" placeholder="username" name="username" required />
+      <input class="py-3 px-5 border-2" type="password" placeholder="password" name="password" required />
+      <button class="py-3 px-5 place-self-center my-10 bg-blue-700 text-white" type="submit">
+        Register
+      </button>
+    </form>
+  </div>
+</body>

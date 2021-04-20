@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css?family=Arimo:400,700&display=swap");
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tab {
+  cursor: pointer;
+  padding: 10px 20px;
+  margin: 0px 2px;
+  display: inline-block;
+  border-radius: 3px 3px 0px 0px;
+  box-shadow: 1px 1px 6px #00000036;
+}
+.panels {
+  width: 100%;
+  overflow: hidden;
+  padding-top: 10px;
+  border-color: #000;
+}
+.panel {
+  display: none;
+  animation: fadein 0.8s;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.panel-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.radio {
+  display: none;
+}
+#one:checked ~ .panels #one-panel,
+#two:checked ~ .panels #two-panel,
+#three:checked ~ .panels #three-panel {
+  display: block;
+}
+#one:checked ~ .tabs #one-tab,
+#two:checked ~ .tabs #two-tab,
+#three:checked ~ .tabs #three-tab {
+  background: #add8e6;
+  color: #000;
+  border-top: 3px solid rgb(133, 202, 43);
+}
