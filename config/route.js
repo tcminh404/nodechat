@@ -28,11 +28,11 @@ module.exports = (app, passport, db) => {
 
   // Register
   app.post("/api/register", async (req, res) => {
-    let role = "admin";
-    const hash = bcrypt.hash(req.body.password, saltRounds);
+    let role = "user";
+    const hash = await bcrypt.hash(req.body.password, saltRounds);
     if (true /*req.isAuthenticated()*/)
       db.query(
-        "INSERT INTO admin(username,password,type) VALUES($1,$2,$3)",
+        "INSERT INTO users(username,password,type) VALUES($1,$2,$3)",
         [req.body.username, hash, role],
         (err, results) => {
           if (err) {

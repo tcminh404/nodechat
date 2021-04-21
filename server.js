@@ -2,10 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+require('dotenv-flow').config();
 
 const PORT = process.env.PORT || 9000;
 const db = require("./db");
-require('dotenv-flow').config();
 
 const app = express();
 
