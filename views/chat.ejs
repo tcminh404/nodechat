@@ -11,29 +11,28 @@
 </head>
 
 <body>
-    <div class="py-5 flex bg-gray-900 h-screen">
+    <div class="py-5 flex bg-gray-200 h-screen">
         <div class="flex flex-col ">
-            <div class="ml-5 rounded-full h-50 p-5 w-50  bg-gray-400">
-                j
-            </div>
+            <form method="POST" action="/api/logout">
+                <button type="submit" class="ml-5 rounded h-50 p-5 w-50 bg-red-100 shadow text-center hover:bg-red-200">Log out</button>
+            </form>
             <div class="flex flex-col" id="channel-container"></div>
-            <div class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-green-200 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
             </div>
     
         </div>
-        <div class="flex flex-grow flex-col bg-gray-600 h-full mx-5 rounded-lg w-50 p-5 h-full">
-            <div class="flex flex-grow bg-gray-100 rounded-lg h-3/6 p-5">
-                dsada
-            </div>
-            <div class="flex bg-gray-600 rounded-lg">
+        <div class="flex flex-grow flex-col bg-white shadow h-full mx-5 rounded-lg w-50 p-3 h-full">
+            <div id="chat-board" class="flex flex-col flex-grow bg-gray-200 rounded-lg h-3/6 p-5">
                 
+            </div>
+            <div class="flex rounded-lg">
                 <input 
                     type="text"
-                    class="mt-2 block border border-gray-100 w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
-                    name="email"
+                    class="mt-2 block border border-gray-100 bg-gray-200 w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                    name="message"
                     placeholder="Your message" />
             </div>
         </div>
@@ -44,21 +43,51 @@
 <script src="/vendor/socket.io.min.js"></script>
 <script>
   var socket = io();
-  //var user = <%- JSON.stringify(user) %>;
+  var user = <%- JSON.stringify(user) %>;
 
   function getChatLog(id) {
       console.log(`/api/log/${id}`)
+  }
+
+  function createChatBubble(chatuser, message) {
+    var child = document.createElement('div');  
+        if(user.username.toLowerCase() != chatuser.toLowerCase()) {
+            child.className = "flex";
+            child.innerHTML = `
+                <div class="flex flex-col">
+                    <span class="w-full">${chatuser}</span>
+                    <span class="flex-grow-0 ml-5 mt-2 hover:bg-green-200 rounded-lg p-2 bg-white shadow">
+                        <p>${message}</p>
+                    </span>
+                </div>
+        `;
+        }
+        else {
+            child.className = "flex flex-row-reverse";
+            child.innerHTML = `
+                <div class="flex flex-col">
+                    <span class="w-full text-right">Me</span>
+                    <span class="flex-grow-0 ml-5 mt-2 hover:bg-green-200 rounded-lg p-2 bg-white shadow">
+                        <p>${message}</p>
+                    </span>
+                </div>
+        `;
+        }
+        document.getElementById("chat-board").appendChild(child);
   }
 
   var roomData = <%- JSON.stringify(roomList.roomList) %>;
     roomData.map(mapData => {
         var child = document.createElement('div');  
         child.className = "flex flex-grow w-full"
-        child.innerHTML = `<button onclick="getChatLog(${mapData.roomId})" class="ml-5 mt-2 w-full hover:bg-white rounded-lg p-5 bg-gray-400">
+        child.innerHTML = `<button onclick="getChatLog(${mapData.roomId})" class="ml-5 mt-2 w-full hover:bg-green-200 rounded-lg p-5 bg-white shadow">
                 ${mapData.roomName}
             </button>`;
         document.getElementById("channel-container").appendChild(child);
     })
+
+    var logData = <%- JSON.stringify(logData.log) %>;
+        logData.map(mapData => createChatBubble(mapData.user, mapData.message))
 
 </script>
 </html>
