@@ -14,10 +14,11 @@
     <div class="py-5 flex bg-gray-900 h-screen">
         <div class="flex flex-col ">
             <div class="ml-5 rounded-full h-50 p-5 w-50  bg-gray-400">
-                <%= user.username %>
+                j
             </div>
+            <div class="flex flex-col" id="channel-container"></div>
             <div class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ml-3 h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
             </div>
@@ -43,5 +44,21 @@
 <script src="/vendor/socket.io.min.js"></script>
 <script>
   var socket = io();
+  //var user = <%- JSON.stringify(user) %>;
+
+  function getChatLog(id) {
+      console.log(`/api/log/${id}`)
+  }
+
+  var roomData = <%- JSON.stringify(roomList.roomList) %>;
+    roomData.map(mapData => {
+        var child = document.createElement('div');  
+        child.className = "flex flex-grow w-full"
+        child.innerHTML = `<button onclick="getChatLog(${mapData.roomId})" class="ml-5 mt-2 w-full hover:bg-white rounded-lg p-5 bg-gray-400">
+                ${mapData.roomName}
+            </button>`;
+        document.getElementById("channel-container").appendChild(child);
+    })
+
 </script>
 </html>
