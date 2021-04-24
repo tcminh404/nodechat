@@ -26,13 +26,13 @@ module.exports = (passport, db) => {
   );
 
   passport.serializeUser((user, done) => {
-    done(null, user.userid);
+    done(null, {userid: user.userid, username: user.username});
   });
 
-  passport.deserializeUser((id, cb) => {
+  passport.deserializeUser((user, cb) => {
     db.query(
       "SELECT userid, username, type FROM users WHERE userid = $1",
-      [parseInt(id, 10)],
+      [parseInt(user.userid, 10)],
       (err, results) => {
         if (err) {
           console.log("Error when selecting user on session deserialize", err);

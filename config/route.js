@@ -2,20 +2,24 @@ const {
   renderLogin,
   renderRegister,
 } = require("../app/admin");
+
+const { renderChat } = require("../app/chat")
 const fs = require("fs-extra");
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 module.exports = (app, passport, db) => {
   // Render Admin feature
+  app.get("/", renderLogin);
   app.get("/login", renderLogin);
   app.get("/register", renderRegister);
+  app.get("/chat", renderChat);
 
   // Login
   app.post(
     "/api/login",
     passport.authenticate("local", {
-      successRedirect: "/panel",
+      successRedirect: "/chat",
       failureRedirect: "/login",
     })
   );
