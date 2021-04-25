@@ -25,16 +25,23 @@
     
         </div>
         <div class="flex flex-grow flex-col bg-white shadow h-full mx-5 rounded-lg w-50 p-3 h-full">
-            <div id="chat-board" class="flex flex-col flex-grow bg-gray-200 rounded-lg h-3/6 p-5">
+            <div id="chat-board" class="flex flex-col overflow-auto flex-grow bg-gray-200 rounded-lg h-3/6 p-5">
                 
             </div>
+                <form id="form" action="">
             <div class="flex rounded-lg">
-                <input 
+                    <input 
                     type="text"
+                    id="input"
                     class="mt-2 block border border-gray-100 bg-gray-200 w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
                     name="message"
+                    autocomplete="off"
                     placeholder="Your message" />
+                <button
+                    class="ml-3 mt-2 mb-4 rounded-lg p-3 bg-green-200 hover:bg-green-300"
+                >Send</button>
             </div>
+                </form>
         </div>
 
     </div>
@@ -44,11 +51,31 @@
 <script>
   var socket = io();
   var user = <%- JSON.stringify(user) %>;
+  var roomData = <%- JSON.stringify(roomList.roomList) %>;
+  var logData = <%- JSON.stringify(logData.log) %>;
+
+  var form = document.getElementById('form');
+  var input = document.getElementById('input');
+
+  // Emit chat message via socket
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (input.value) {
+      socket.emit('chat message', user.username, input.value);
+      input.value = '';
+    }
+  });
+
+  // Get broadcast message from server
+  socket.on('chat message', function(user, msg) {
+    createChatBubble(user, msg);
+  });
 
   function getChatLog(id) {
       console.log(`/api/log/${id}`)
   }
 
+  // Create chat bubble and append it to message board
   function createChatBubble(chatuser, message) {
     var child = document.createElement('div');  
         if(user.username.toLowerCase() != chatuser.toLowerCase()) {
@@ -76,7 +103,6 @@
         document.getElementById("chat-board").appendChild(child);
   }
 
-  var roomData = <%- JSON.stringify(roomList.roomList) %>;
     roomData.map(mapData => {
         var child = document.createElement('div');  
         child.className = "flex flex-grow w-full"
@@ -86,8 +112,6 @@
         document.getElementById("channel-container").appendChild(child);
     })
 
-    var logData = <%- JSON.stringify(logData.log) %>;
-        logData.map(mapData => createChatBubble(mapData.user, mapData.message))
-
+    logData.map(mapData => createChatBubble(mapData.user, mapData.message))
 </script>
 </html>

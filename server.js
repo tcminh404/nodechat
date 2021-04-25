@@ -27,7 +27,7 @@ const sessionMiddleware = session({
   secret: "nyan cat",
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 600000 },
+  cookie: { maxAge: 6000000 },
   store: new pgSession({
     pool: db.pool,
     tableName: "session",
@@ -49,10 +49,10 @@ io.use((socket, next) => {
 })
 
 io.on('connection', (socket) => {
-  console.log(socket.request.session)
-  console.log('a user connected');
+  socket.on('chat message', (user, msg) => {
+    io.emit('chat message', user, msg);
+  });
 });
-
 
 server.listen(PORT, (req, res) => {
   console.log(`http://localhost:${PORT}`);
