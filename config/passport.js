@@ -5,7 +5,7 @@ module.exports = (passport, db) => {
   passport.use(
     new LocalStrategy((usernameField, passwordField, cb) => {
       db.query(
-        "SELECT userId, username, password, type FROM users WHERE username=$1",
+        "SELECT userid, username, password, type FROM users WHERE username=$1",
         [usernameField],
         (err, result) => {
           if (err) {
@@ -26,12 +26,12 @@ module.exports = (passport, db) => {
   );
 
   passport.serializeUser((user, done) => {
-    done(null, { userid: user.userId, username: user.username });
+    done(null, { userid: user.userid, username: user.username });
   });
 
   passport.deserializeUser((user, cb) => {
     db.query(
-      "SELECT userId, username, type FROM users WHERE userId = $1",
+      "SELECT userid, username, type FROM users WHERE userid = $1",
       [parseInt(user.userid, 10)],
       (err, results) => {
         if (err) {

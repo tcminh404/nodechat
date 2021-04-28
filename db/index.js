@@ -10,6 +10,7 @@ pool.on("error", function (err) {
 module.exports = {
   pool,
   query: (text, params, callback) => {
+    //console.log(text,params,callback);
     return pool.query(text, params, callback);
   },
 };
