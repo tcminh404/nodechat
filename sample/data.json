@@ -1,0 +1,22 @@
+{
+    "roomList": [{
+        "roomId": 1,
+        "roomName": "room1"
+    },
+    {
+        "roomId": 2,
+        "roomName": "rosom1"
+    },
+    {
+        "roomId": 3,
+        "roomName": "rooms"
+    },
+    {
+        "roomId": 4,
+        "roomName": "room1a"
+    },
+    {
+        "roomId": 5,
+        "roomName": "roomd1"
+    }]
+}
