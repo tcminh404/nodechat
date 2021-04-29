@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
         Sign up
     </title>
 </head>
+
 <body class="bg-gray-100">
     <div class="bg-grey-lighter min-h-screen flex flex-col">
         <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -16,28 +18,24 @@
                 <h1 class="mb-8 text-3xl text-center">Sign up</h1>
 
                 <form action="/api/register" method="POST">
-                    <input 
-                    type="text"
-                    class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
-                    name="username"
-                    placeholder="Username" />
+                    <input type="text"
+                        class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                        name="username" placeholder="Username" />
 
-                <input 
-                    type="password"
-                    class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
-                    name="password"
-                    placeholder="Password" />
-                
+                    <input type="password"
+                        class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                        name="password" placeholder="Password" />
 
-                <button
-                    type="submit"
-                    class="w-full text-center py-3 rounded bg-green-700 text-white hover:bg-green-800 focus:outline-none my-1">Create Account
-                </button>
-            </form>
+
+                    <button type="submit"
+                        class="w-full text-center py-3 rounded bg-green-700 text-white hover:bg-green-800 focus:outline-none my-1">Create
+                        Account
+                    </button>
+                </form>
             </div>
 
             <div class="text-grey-dark mt-6">
-                Already have an account? 
+                Already have an account?
                 <a class="no-underline border-b border-blue text-green-500 ml-2" href="">
                     Log in
                 </a>.
@@ -45,4 +43,5 @@
         </div>
     </div>
 </body>
+
 </html>

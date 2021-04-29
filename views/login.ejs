@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <title>Login</title>
 </head>
+
 <body class="bg-gray-100">
     <div class="bg-grey-lighter min-h-screen flex flex-col">
         <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
@@ -14,22 +16,18 @@
                 <h1 class="mb-8 text-3xl text-center">Login</h1>
 
                 <form class="flex flex-col" action="/api/login" method="POST">
-                    <input 
-                    type="text"
-                    class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
-                    name="username"
-                    placeholder="Username" />
+                    <input type="text"
+                        class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                        name="username" placeholder="Username" />
 
-                <input 
-                    type="password"
-                    class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
-                    name="password"
-                    placeholder="Password" />
+                    <input type="password"
+                        class="block border border-grey-light w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                        name="password" placeholder="Password" />
 
-                <button
-                    type="submit"
-                    class="w-full text-center py-3 rounded bg-green-700 text-white hover:bg-green-800 focus:outline-none my-1">Login here
-                </button>
+                    <button type="submit"
+                        class="w-full text-center py-3 rounded bg-green-700 text-white hover:bg-green-800 focus:outline-none my-1">Login
+                        here
+                    </button>
                 </form>
             </div>
 
@@ -42,4 +40,5 @@
         </div>
     </div>
 </body>
+
 </html>

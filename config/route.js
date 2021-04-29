@@ -1,19 +1,16 @@
-const {
-  renderLogin,
-  renderRegister,
-} = require("../app/admin");
-
-const { renderChat } = require("../app/chat")
+const admin = require("../app/admin");
+const render = require("../app/admin/render");
+const chat = require("../app/chat")
 const fs = require("fs-extra");
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 module.exports = (app, passport, db) => {
   // Render Admin feature
-  app.get("/", renderLogin);
-  app.get("/login", renderLogin);
-  app.get("/register", renderRegister);
-  app.get("/chat", renderChat);
+  app.get("/", render.renderLogin);
+  app.get("/login", render.renderLogin);
+  app.get("/register", render.renderRegister);
+  app.get("/chat", chat.renderChat);
 
   // Login
   app.post(
@@ -34,19 +31,17 @@ module.exports = (app, passport, db) => {
   app.post("/api/register", async (req, res) => {
     let role = "user";
     const hash = await bcrypt.hash(req.body.password, saltRounds);
-    if (true /*req.isAuthenticated()*/)
-      db.query(
-        "INSERT INTO users(username,password,type) VALUES($1,$2,$3)",
-        [req.body.username, hash, role],
-        (err, results) => {
-          if (err) {
-            res.send(err);
-          } else {
-            res.redirect("/chat");
-          }
+    db.query(
+      "INSERT INTO users(username,password,type) VALUES($1,$2,$3)",
+      [req.body.username, hash, role],
+      (err, results) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.redirect("/chat");
         }
-      );
-    else (res.send("Require login!"));
+      }
+    );
   });
 
 };
