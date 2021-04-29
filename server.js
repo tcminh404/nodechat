@@ -14,7 +14,6 @@ require('dotenv-flow').config();
 
 const PORT = process.env.PORT || 9000;
 const db = require("./db");
-
 app.set("view engine", "ejs");
 
 app.use(cors());
@@ -56,4 +55,5 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, (req, res) => {
   console.log(`http://localhost:${PORT}`);
+  db.createTable();
 });

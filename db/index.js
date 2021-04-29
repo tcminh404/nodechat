@@ -1,5 +1,6 @@
 const pg = require("pg");
 const dbConfig = require("../config/postgre");
+const schema = require('./schema');
 
 const pool = new pg.Pool(dbConfig.db);
 
@@ -13,4 +14,11 @@ module.exports = {
     //console.log(text,params,callback);
     return pool.query(text, params, callback);
   },
+
+  createTable: () => {
+    module.exports.query(schema.createUsers());
+    module.exports.query(schema.createLog());
+    module.exports.query(schema.createSession());
+    module.exports.query(schema.createRoom());
+  }
 };
