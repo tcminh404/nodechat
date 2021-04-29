@@ -47,9 +47,9 @@
 <script src="/vendor/socket.io.min.js"></script>
 <script>
     var socket = io();
-    var user = <% - JSON.stringify(user) %>;
-    var roomData = <% - JSON.stringify(roomList) %>;
-    var logData = <% - JSON.stringify(logData) %>;
+    var user = <%- JSON.stringify(user) %>;
+    var roomData = <%- JSON.stringify(roomList) %>;
+    var logData = <%- JSON.stringify(logData) %>;
     console.log(user, roomData, logData);
 
     var form = document.getElementById('form');
