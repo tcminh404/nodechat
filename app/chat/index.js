@@ -11,13 +11,9 @@ module.exports = {
     renderChat: async (req, res) => {
         if(req.isAuthenticated()) {
             const sessionUser = req.session.passport.user;
-            var data = [];
-            var log = [];
             var mockData = await admin.fetchDataTable("room");
             var logData = await admin.fetchDataTable("log");
-            mockData.forEach(element => {data.push(element)});
-            logData.forEach(element => {log.push(element)});
-            res.render(getViewPath("chat"), { user: sessionUser, roomList: data, logData: log });
+            res.render(getViewPath("chat"), { user: sessionUser, roomList: mockData, logData: logData });
         }
         else res.redirect("/login");
     },
