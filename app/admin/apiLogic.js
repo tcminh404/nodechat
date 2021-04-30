@@ -4,7 +4,10 @@ const fs = require("fs");
 
 module.exports = {
   fetchData: async (query) => {
-    const queryResult = await db.query(`${query.action} ${query.table}`);
+    const queryResult = await db.query(
+      `${query.action} ${query.table} ${query.condition};`,
+      query.params
+    );
     return queryResult.rows;
   },
 

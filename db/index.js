@@ -20,5 +20,6 @@ module.exports = {
     module.exports.query(schema.createLog());
     module.exports.query(schema.createSession());
     module.exports.query(schema.createRoom());
+    module.exports.query(schema.createMember());
   }
 };

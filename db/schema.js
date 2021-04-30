@@ -50,5 +50,17 @@ module.exports = {
             CONSTRAINT session_pkey PRIMARY KEY (sid)
         )`
         return query;
+    },
+
+    createMember: () => {
+        const query = `
+        CREATE TABLE IF NOT EXISTS public.member
+        (
+            id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+            roomid integer NOT NULL,
+            userid integer NOT NULL,
+            CONSTRAINT member_pkey PRIMARY KEY (id)
+        )`
+        return query;
     }
 }
