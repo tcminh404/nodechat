@@ -12,6 +12,35 @@ module.exports = {
     return data;
   },
   
+  fetchDataRoom: async (userid = 0) => {
+    const queryRoomId = {
+      action: "SELECT * FROM",
+      table: "member",
+      condition: "WHERE userid = $1",
+      params: [userid]
+    };
+    var roomId = await apiLogic.fetchData(queryRoomId);
+    roomId = roomId.map(element => element.roomid);
+    const query = {
+      action: "SELECT * FROM",
+      table: "room",
+      condition: `WHERE userid = ${userid} OR roomid = ANY(ARRAY[0${roomId}]) OR roomtype = 'public'`
+    };
+    const data = await apiLogic.fetchData(query);
+    return data;
+  },
+
+  fetchDataLog: async (roomid = 0) => {
+    const query = {
+      action: "SELECT * FROM",
+      table: "log",
+      condition: "WHERE roomid = $1",
+      params: [roomid]
+    };
+    const data = await apiLogic.fetchData(query);
+    return data;
+  },
+
   createRoom: async (req, res) => {
     var pass = crypto.randomBytes(30).toString('hex');
     const query = {
