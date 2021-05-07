@@ -58,6 +58,10 @@
         send.disabled = (message.trim()==="");
     }
 
+    function showKey(input) {
+        alert(input);
+    }
+
     var socket = io();
     var user = <%- JSON.stringify(user) %>;
     var roomData = <%- JSON.stringify(roomList) %>;
@@ -141,7 +145,12 @@
         child.className = "flex flex-grow w-full"
         child.innerHTML = `<button onclick="getChatLog(${mapData.roomid})" class="ml-5 mt-2 w-full hover:bg-green-200 rounded-lg p-5 bg-white shadow">
                 ${mapData.roomname}
-            </button>`;
+            </button><br>`;
+        if (mapData.roomtype=='private'){
+            var para = document.createElement("P");
+            para.innerHTML = `<button onclick="showKey('${mapData.roompassword}')">Key</button>`;
+            child.appendChild(para);
+        }
         document.getElementById("channel-container").appendChild(child);
     })
 
