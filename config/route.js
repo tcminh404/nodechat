@@ -12,6 +12,7 @@ module.exports = (app, passport, db) => {
   app.get("/register", render.renderRegister);
   app.get("/chat", chat.renderChat);
 
+  app.get("/api/log/:roomid", admin.fetchDataLog);
   app.post("/api/room",admin.createRoom);
   app.post("/api/join",admin.joinRoom);
 

@@ -21,6 +21,7 @@ app.use(bodyParser.json({ limit: "4mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const session = require("express-session");
+const apiLogic = require("./app/admin/apiLogic");
 const pgSession = require("connect-pg-simple")(session);
 const sessionMiddleware = session({
   secret: "nyan cat",
@@ -47,10 +48,28 @@ io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 })
 
-io.on('connection', (socket) => {
-  socket.on('chat message', (user, msg) => {
-    io.emit('chat message', user, msg);
-  });
+io.on('connection', async (socket) => {
+  const query = {
+    action: "SELECT roomid FROM",
+    table: "room",
+    condition: ``
+  };
+  roomList = await apiLogic.fetchData(query)
+  //console.log(roomList)
+  roomList.map(mapData => {
+    socket.on(`chat message [${mapData.roomid}]`, (user, msg) => {
+      let logQuery = {
+        action: "INSERT INTO",
+        table: "log",
+        condition: `(message, username, roomid, date) VALUES ($1, $2, $3, NOW())`,
+        params: [msg, user.user, user.roomid],
+      };
+
+      apiLogic.updateData(logQuery)
+      io.emit(`chat message [${mapData.roomid}]`, user.user, msg);
+    });
+  })
+  
 });
 
 server.listen(PORT, (req, res) => {

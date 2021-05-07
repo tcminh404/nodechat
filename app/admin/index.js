@@ -30,7 +30,9 @@ module.exports = {
     return data;
   },
 
-  fetchDataLog: async (roomid = 0) => {
+  fetchDataLog: async (req, res) => {
+    const roomid = parseInt(req.params.roomid);
+
     const query = {
       action: "SELECT * FROM",
       table: "log",
@@ -38,7 +40,7 @@ module.exports = {
       params: [roomid]
     };
     const data = await apiLogic.fetchData(query);
-    return data;
+    res.send(data);
   },
 
   createRoom: async (req, res) => {
@@ -47,7 +49,7 @@ module.exports = {
       action: "INSERT INTO",
       table: "room",
       condition: `(roomname, roompassword, roomtype, userid) VALUES ($1,$2,$3,$4)`,
-      params: [req.body.roomname,pass,req.body.roomtype,req.user.userid],
+      params: [req.body.roomname, pass, req.body.roomtype, req.user.userid],
     }
     apiLogic.updateData(query);
   },

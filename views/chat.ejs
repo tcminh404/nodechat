@@ -51,10 +51,7 @@
     var socket = io();
     var user = <%- JSON.stringify(user) %>;
     var roomData = <%- JSON.stringify(roomList) %>;
-    var logData = <%- JSON.stringify(logData) %>;
     var currentRoom = roomData[0].roomid;
-
-    console.log(user, roomData, logData, currentRoom);
 
     var form = document.getElementById('form');
     var input = document.getElementById('input');
@@ -63,15 +60,13 @@
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         if (input.value) {
-            socket.emit('chat message', user.username, input.value);
+            socket.emit(`chat message [${currentRoom}]`, {user: user.username, roomid: currentRoom}, input.value);
             input.value = '';
         }
     });
 
     // Get broadcast message from server
-    socket.on('chat message', function (user, msg) {
-        createChatBubble(user, msg);
-    });
+    
 
     function popupModal() {
         let modal = document.getElementById("modal");
@@ -88,7 +83,19 @@
 
     function getChatLog(id) {
         currentRoom = id;
-        console.log(`/api/log/${currentRoom}`)
+        socket.removeAllListeners(`chat message [${currentRoom}]`);
+        socket.on(`chat message [${currentRoom}]`, function (user, msg) {
+            createChatBubble(user, msg);
+        });
+        document.getElementById("chat-board").innerHTML = "";
+        
+        axios.get(`/api/log/${currentRoom}`)
+        .then(result => {
+            result.data.map(mapData => {
+                createChatBubble(mapData.username, mapData.message)
+            })
+        })
+        .catch(err => console.log(err));
     }
 
     // Create chat bubble and append it to message board
@@ -128,7 +135,7 @@
         document.getElementById("channel-container").appendChild(child);
     })
 
-    logData.map(mapData => createChatBubble(mapData.username, mapData.message))
+    //logData.map(mapData => createChatBubble(mapData.username, mapData.message))
 </script>
 
 </html>

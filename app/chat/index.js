@@ -13,8 +13,8 @@ module.exports = {
             const sessionUser = req.session.passport.user;
             const roomId = req.body.roomid;
             var mockData = await admin.fetchDataRoom(sessionUser.userid);
-            var logData = await admin.fetchDataLog(roomId);
-            res.render(getViewPath("chat"), { user: sessionUser, roomList: mockData, logData: logData });
+            //var logData = await admin.fetchDataLog(roomId);
+            res.render(getViewPath("chat"), { user: sessionUser, roomList: mockData});
         }
         else res.redirect("/login");
     },
