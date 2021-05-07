@@ -1,75 +1,54 @@
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous"></script>
 </head>
 <div class="flex justify-center h-screen items-center bg-black bg-opacity-70 antialiased">
-    <div class="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-2xl mx-auto rounded-lg border border-gray-300 shadow-xl">
-      <div
-        class="flex flex-row justify-between p-6 bg-green-200 border-b border-gray-200 rounded-tl-lg rounded-tr-lg"
-      >
-        <p class="font-semibold text-gray-800">Create chatroom</p>
-        <svg
-          class="w-6 h-6 cursor-pointer"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          onclick="closeModal()"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        </svg>
-      </div>
-      <div class="flex flex-col px-6 py-5 bg-gray-50">
-        <p class="mb-2 font-semibold text-gray-700">Room Name</p>
-        <input
-          type="text"
-          name="roomname"
-          placeholder="Name"
-          class="p-2 bg-white border border-gray-200 rounded shadow-sm"
-          id="room-name"
-        ></input>
-        <div class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5 mt-3">
-          <div class="w-full sm:w-1/2">
-            <p class="mb-2 font-semibold text-gray-700">Room type</p>
-            <select
-              type="text"
-              name="roomtype"
-              class="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none mb-5"
-              id="room-type"
-            >
-              <option value="public">Public</option>
-              <option value="private">Private</option>
-            </select>
-          </div>
+  <div class="flex flex-col w-11/12 sm:w-5/6 lg:w-1/2 max-w-2xl mx-auto rounded-lg border border-gray-300 shadow-xl">
+    <div class="flex flex-row justify-between p-6 bg-green-200 border-b border-gray-200 rounded-tl-lg rounded-tr-lg">
+      <p class="font-semibold text-gray-800">Create chatroom</p>
+      <svg class="w-6 h-6 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg" onclick="closeModal('createModal')">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </div>
+    <div class="flex flex-col px-6 py-5 bg-gray-50">
+      <p class="mb-2 font-semibold text-gray-700">Room Name</p>
+      <input type="text" name="roomname" placeholder="Name"
+        class="p-2 bg-white border border-gray-200 rounded shadow-sm" id="room-name"></input>
+      <div class="flex flex-col sm:flex-row items-center mb-5 sm:space-x-5 mt-3">
+        <div class="w-full sm:w-1/2">
+          <p class="mb-2 font-semibold text-gray-700">Room type</p>
+          <select type="text" name="roomtype"
+            class="w-full p-5 bg-white border border-gray-200 rounded shadow-sm appearance-none mb-5" id="room-type">
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
         </div>
-        <hr />
       </div>
-      <div
-        class="flex flex-row items-center justify-between p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg"
-      >
-        <p onclick="closeModal()"; class="font-semibold text-gray-600 cursor-pointer">Cancel</p>
-        <button onclick="createRoom()" class="px-4 py-2 text-white font-semibold bg-blue-500 rounded">
-          Create
-        </button>
-      </div>
+      <hr />
+    </div>
+    <div
+      class="flex flex-row items-center justify-between p-5 bg-white border-t border-gray-200 rounded-bl-lg rounded-br-lg">
+      <p onclick="closeModal('createModal')" ; class="font-semibold text-gray-600 cursor-pointer">Cancel</p>
+      <button onclick="createRoom()" class="px-4 py-2 text-white font-semibold bg-blue-500 rounded">
+        Create
+      </button>
     </div>
   </div>
+</div>
 
-  <script>
-      function createRoom() {
-        var data = {
-          roomname: document.getElementById("room-name").value,
-          roomtype: document.getElementById("room-type").value
-        }
-        axios.post('/api/room', data)
-        .then(result => {
-          alert("Success");
-          location.reload();
-        })
-        .catch(err => console.log(err))
-      }
-  </script>
+<script>
+  function createRoom() {
+    var data = {
+      roomname: document.getElementById("room-name").value,
+      roomtype: document.getElementById("room-type").value
+    }
+    axios.post('/api/room', data)
+      .then(result => {
+        alert("Success");
+        location.reload();
+      })
+      .catch(err => console.log(err))
+  }
+</script>

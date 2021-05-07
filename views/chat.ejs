@@ -11,8 +11,11 @@
 </head>
 
 <body>
-    <div id="modal" class="z-10 w-screen h-screen" style="visibility: hidden; position: fixed">
+    <div id="createModal" class="z-10 w-screen h-screen" style="visibility: hidden; position: fixed">
         <%- include('createRoomModal') %>
+    </div>
+    <div id="joinModal" class="z-10 w-screen h-screen" style="visibility: hidden; position: fixed">
+        <%- include('joinRoomModal') %>
     </div>
     <div class="flex bg-gray-200 h-screen">
         <div class="flex flex-col ">
@@ -20,14 +23,15 @@
                 <button type="submit"
                     class="ml-5 rounded h-50 p-5 w-50 bg-red-100 shadow text-center hover:bg-red-200">Log out</button>
             </form>
-            <div class="flex flex-col" id="channel-container"></div>
-            <div onclick="popupModal()" class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-green-200 text-center">
+            <div class="flex flex-col overflow-auto h-2/3" id="channel-container"></div>
+            <div onclick="popupModal('createModal')" class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-green-200 text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
+            <div onclick="popupModal('joinModal')" class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-green-200 text-center">Join Room</div>
 
         </div>
         <div class="flex flex-grow flex-col bg-white shadow h-full mx-5 rounded-lg w-50 p-3 h-full">
@@ -36,10 +40,10 @@
             </div>
             <form id="form" action="">
                 <div class="flex rounded-lg">
-                    <input type="text" id="input"
+                    <input type="text" id="input" onchange="check()"
                         class="mt-2 block border border-gray-100 bg-gray-200 w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
                         name="message" autocomplete="off" placeholder="Your message" />
-                    <button class="ml-3 mt-2 mb-4 rounded-lg p-3 bg-green-200 hover:bg-green-300">Send</button>
+                    <button id="send" class="ml-3 mt-2 mb-4 rounded-lg p-3 bg-green-200 hover:bg-green-300">Send</button>
                 </div>
             </form>
         </div>
@@ -48,6 +52,12 @@
 </body>
 <script src="/vendor/socket.io.min.js"></script>
 <script>
+    function check() {
+        message = document.getElementById("input").value;
+        send = document.getElementById("send");
+        send.disabled = (message.trim()==="");
+    }
+
     var socket = io();
     var user = <%- JSON.stringify(user) %>;
     var roomData = <%- JSON.stringify(roomList) %>;
@@ -68,17 +78,17 @@
     // Get broadcast message from server
     
 
-    function popupModal() {
-        let modal = document.getElementById("modal");
+    function popupModal(inModal) {
+        let modal = document.getElementById(inModal);
 
         modal.style.visibility = "visible";
     }
 
-    function closeModal() {
-        let modal = document.getElementById("modal");
+    function closeModal(inModal) {
+        let modal = document.getElementById(inModal);
 
         if(modal.style.visibility == "visible")
-            document.getElementById("modal").style.visibility= "hidden"
+            document.getElementById(inModal).style.visibility= "hidden"
     }
 
     function getChatLog(id) {

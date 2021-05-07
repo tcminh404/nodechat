@@ -52,6 +52,7 @@ module.exports = {
       params: [req.body.roomname, pass, req.body.roomtype, req.user.userid],
     }
     apiLogic.updateData(query);
+    res.send("");
   },
 
   joinRoom: async (req, res) => {
@@ -70,5 +71,6 @@ module.exports = {
       params: [data[0].roomid,req.user.userid],
     }
     apiLogic.updateData(query1);
+    res.send("");
   },
 }
