@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/vendor/tailwind.css" rel="stylesheet" />
+
+    <title>Chat</title>
+</head>
+
+<body>
+    <div class="flex bg-gray-200 h-screen">
+        <div class="flex flex-col ">
+            <form method="POST" action="/api/logout">
+                <button type="submit"
+                    class="ml-5 rounded h-50 p-5 w-50 bg-red-100 shadow text-center hover:bg-red-200">Log out</button>
+            </form>
+            <div onclick="openTab('room')"
+                class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-green-200 text-center">Room</div>
+            <div onclick="openTab('user')"
+                class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-green-200 text-center">User</div>
+            <a href="/chat">
+                <div class=" hover:bg-white mt-3 ml-5 rounded-lg h-50 w-50 p-3  bg-green-200 text-center">Back</div>
+            </a>
+        </div>
+        <div class="flex flex-grow flex-col bg-white shadow h-full mx-5 rounded-lg w-50 p-3 h-full" name="tab"
+            id="room">
+            <div id="chat-board" class="flex flex-col overflow-auto flex-grow bg-gray-200 rounded-lg h-3/6 p-5">
+                <table>
+                    <tr>
+                        <th>Room Id</th>
+                        <th>Room Name</th>
+                        <th>Room Type</th>
+                        <th>Room Owner</th>
+                    </tr>
+                    <% for(var i=0; i<roomList.length; i++) {%>
+                        <tr>
+                            <td>
+                                <%= roomList[i].roomid %>
+                            </td>
+                            <td>
+                                <%= roomList[i].roomname %>
+                            </td>
+                            <td>
+                                <%= roomList[i].roomtype %>
+                            </td>
+                            <td>
+                                <%= roomList[i].userid %>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+            </div>
+            <form id="form" method="POST" action="/api/deleteRoom">
+                <div class="flex rounded-lg">
+                    <input type="number" id="input"
+                        class="mt-2 block border border-gray-100 bg-gray-200 w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                        name="roomid" autocomplete="off" placeholder="ID room to delete" />
+                    <button id="send"
+                        class="ml-3 mt-2 mb-4 rounded-lg p-3 bg-green-200 hover:bg-green-300">Send</button>
+                </div>
+            </form>
+        </div>
+        <div class="flex flex-grow flex-col bg-white shadow h-full mx-5 rounded-lg w-50 p-3 h-full" name="tab"
+            id="user" style="display: none;">
+            <div id="chat-board" class="flex flex-col overflow-auto flex-grow bg-gray-200 rounded-lg h-3/6 p-5">
+                <table>
+                    <tr>
+                        <th>User Id</th>
+                        <th>User Name</th>
+                        <th>User Type</th>
+                    </tr>
+                    <% for(var i=0; i<userList.length; i++) {%>
+                        <tr>
+                            <td>
+                                <%= userList[i].userid %>
+                            </td>
+                            <td>
+                                <%= userList[i].username %>
+                            </td>
+                            <td>
+                                <%= userList[i].type %>
+                            </td>
+                        </tr>
+                        <% } %>
+                </table>
+            </div>
+            <form id="form" method="POST" action="/api/deleteUser">
+                <div class="flex rounded-lg">
+                    <input type="number" id="input"
+                        class="mt-2 block border border-gray-100 bg-gray-200 w-full p-3 rounded mb-4 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                        name="userid" autocomplete="off" placeholder="UserID to delete" />
+                    <button id="send"
+                        class="ml-3 mt-2 mb-4 rounded-lg p-3 bg-green-200 hover:bg-green-300">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    function openTab(tabName) {
+        var i, x, tablinks;
+        x = document.getElementsByName("tab");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+            console.log(i);
+        }
+        document.getElementById(tabName).style.display = "";
+    }
+</script>
+
+</html>

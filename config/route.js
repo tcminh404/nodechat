@@ -11,10 +11,19 @@ module.exports = (app, passport, db) => {
   app.get("/login", render.renderLogin);
   app.get("/register", render.renderRegister);
   app.get("/chat", chat.renderChat);
+  app.get("/manager", (req, res) => {
+    if (req.user.type==='admin'){
+      render.renderAdmin(req,res);
+    }else{
+      render.renderManager(req,res);
+    }
+  });
 
   app.get("/api/log/:roomid", admin.fetchDataLog);
   app.post("/api/room",admin.createRoom);
   app.post("/api/join",admin.joinRoom);
+  app.post("/api/deleteRoom",admin.deleteRoom);
+  app.post("/api/deleteUser",admin.deleteUser);
 
   // Login
   app.post(

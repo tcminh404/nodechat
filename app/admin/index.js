@@ -11,7 +11,7 @@ module.exports = {
     const data = await apiLogic.fetchData(query);
     return data;
   },
-  
+
   fetchDataRoom: async (userid = 0) => {
     const queryRoomId = {
       action: "SELECT * FROM",
@@ -25,6 +25,24 @@ module.exports = {
       action: "SELECT * FROM",
       table: "room",
       condition: `WHERE userid = ${userid} OR roomid = ANY(ARRAY[0${roomId}]) OR roomtype = 'public'`
+    };
+    const data = await apiLogic.fetchData(query);
+    return data;
+  },
+
+  fetchRoomOwner: async (userid = 0) => {
+    const queryRoomId = {
+      action: "SELECT * FROM",
+      table: "member",
+      condition: "WHERE userid = $1",
+      params: [userid]
+    };
+    var roomId = await apiLogic.fetchData(queryRoomId);
+    roomId = roomId.map(element => element.roomid);
+    const query = {
+      action: "SELECT * FROM",
+      table: "room",
+      condition: `WHERE userid = ${userid}`
     };
     const data = await apiLogic.fetchData(query);
     return data;
@@ -68,9 +86,37 @@ module.exports = {
       action: "INSERT INTO",
       table: "member",
       condition: `(roomid, userid) VALUES ($1,$2)`,
-      params: [data[0].roomid,req.user.userid],
+      params: [data[0].roomid, req.user.userid],
     }
     apiLogic.updateData(query1);
     res.send("");
+  },
+
+  deleteRoom: async (req, res) => {
+    var condition;
+    if (req.user.type === 'admin') {
+      condition = `WHERE roomid = ${req.body.roomid}`
+    } else {
+      condition = `WHERE roomid = ${req.body.roomid} AND userid = ${req.user.userid}`
+    }
+    const query1 = {
+      action: "DELETE FROM",
+      table: "room",
+      condition: condition,
+    }
+    apiLogic.updateData(query1);
+    res.redirect("/manager");
+  },
+
+  deleteUser: async (req, res) => {
+    if (req.user.userid != req.body.userid) {
+      const query1 = {
+        action: "DELETE FROM",
+        table: "users",
+        condition: `WHERE userid = ${req.body.userid}`,
+      }
+      apiLogic.updateData(query1);
+    }
+    res.redirect("/manager");
   },
 }
